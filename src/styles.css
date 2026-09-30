@@ -1,0 +1,468 @@
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'tailwindcss/utilities.css';
+
+@import '@spartan-ng/brain/hlm-tailwind-preset.css';
+
+@import '@fontsource-variable/noto-sans-thai/index.css';
+
+/* =============================================================================
+ * Water Delivery Management System — Design Tokens
+ * Source of truth: Stitch "Water Delivery Design System"
+ *   primary   #0284C7 (water blue)
+ *   secondary #0D9488 (teal)
+ *   tertiary  #F59E0B (amber)
+ *   light mode, 8px radius, soft shadows, Noto Sans (Thai first)
+ * ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* --- Typography ------------------------------------------------------- */
+  --font-sans:
+    'Noto Sans Thai Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
+  --font-display:
+    'Noto Sans Thai Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    sans-serif;
+
+  /* --- Brand primitives ------------------------------------------------- */
+  --brand-50: #f0f9ff;
+  --brand-100: #e0f2fe;
+  --brand-200: #bae6fd;
+  --brand-300: #7dd3fc;
+  --brand-400: #38bdf8;
+  --brand-500: #0ea5e9;
+  --brand-600: #0284c7;
+  --brand-700: #0369a1;
+  --brand-800: #075985;
+  --brand-900: #0c4a6e;
+  --brand-950: #082f49;
+
+  --teal-50: #f0fdfa;
+  --teal-100: #ccfbf1;
+  --teal-200: #99f6e4;
+  --teal-300: #5eead4;
+  --teal-400: #2dd4bf;
+  --teal-500: #14b8a6;
+  --teal-600: #0d9488;
+  --teal-700: #0f766e;
+  --teal-800: #115e59;
+  --teal-900: #134e4a;
+  --teal-950: #042f2e;
+
+  --amber-50: #fffbeb;
+  --amber-100: #fef3c7;
+  --amber-200: #fde68a;
+  --amber-300: #fcd34d;
+  --amber-400: #fbbf24;
+  --amber-500: #f59e0b;
+  --amber-600: #d97706;
+  --amber-700: #b45309;
+  --amber-800: #92400e;
+  --amber-900: #78350f;
+  --amber-950: #451a03;
+
+  /* --- Accent (violet) — ใช้เป็นสีที่ 4 ของกราฟและ tone เสริมใน KPI --- */
+  --violet-50: #f5f3ff;
+  --violet-100: #ede9fe;
+  --violet-200: #ddd6fe;
+  --violet-500: #8b5cf6;
+  --violet-600: #7c3aed;
+  --violet-700: #6d28d9;
+
+  /* --- Neutral (slate) -------------------------------------------------- */
+  --neutral-50: #f8fafc;
+  --neutral-100: #f1f5f9;
+  --neutral-200: #e2e8f0;
+  --neutral-300: #cbd5e1;
+  --neutral-400: #94a3b8;
+  --neutral-500: #64748b;
+  --neutral-600: #475569;
+  --neutral-700: #334155;
+  --neutral-800: #1e293b;
+  --neutral-900: #0f172a;
+  --neutral-950: #020617;
+
+  /* --- Semantic feedback ------------------------------------------------ */
+  --success: #059669;
+  --success-foreground: #ffffff;
+  --success-soft: #ecfdf5;
+  --success-soft-foreground: #047857;
+  --success-border: #a7f3d0;
+
+  --info: #0284c7;
+  --info-foreground: #ffffff;
+  --info-soft: #f0f9ff;
+  --info-soft-foreground: #0369a1;
+  --info-border: #bae6fd;
+
+  --warning: #f59e0b;
+  --warning-foreground: #78350f;
+  --warning-soft: #fffbeb;
+  --warning-soft-foreground: #b45309;
+  --warning-border: #fde68a;
+
+  --danger: #dc2626;
+  --danger-foreground: #ffffff;
+  --danger-soft: #fef2f2;
+  --danger-soft-foreground: #b91c1c;
+  --danger-border: #fecaca;
+
+  --credit: #ea580c;
+  --credit-foreground: #ffffff;
+  --credit-soft: #fff7ed;
+  --credit-soft-foreground: #c2410c;
+  --credit-border: #fed7aa;
+
+  /* --- Domain status (orders / deliveries) ------------------------------ */
+  --status-pending: var(--amber-500);
+  --status-pending-soft: var(--amber-50);
+  --status-pending-foreground: var(--amber-700);
+  --status-pending-border: var(--amber-200);
+
+  --status-in-transit: var(--brand-600);
+  --status-in-transit-soft: var(--brand-50);
+  --status-in-transit-foreground: var(--brand-700);
+  --status-in-transit-border: var(--brand-200);
+
+  --status-delivered: var(--success);
+  --status-delivered-soft: var(--success-soft);
+  --status-delivered-foreground: var(--success-soft-foreground);
+  --status-delivered-border: var(--success-border);
+
+  --status-cancelled: var(--danger);
+  --status-cancelled-soft: var(--danger-soft);
+  --status-cancelled-foreground: var(--danger-soft-foreground);
+  --status-cancelled-border: var(--danger-border);
+
+  --status-credit: var(--credit);
+  --status-credit-soft: var(--credit-soft);
+  --status-credit-foreground: var(--credit-soft-foreground);
+  --status-credit-border: var(--credit-border);
+
+  /* --- Shape ------------------------------------------------------------ */
+  --radius: 0.5rem; /* 8px — Stitch ROUND_EIGHT */
+
+  /* --- Elevation (soft, low-contrast) ----------------------------------- */
+  --shadow-soft-xs: 0 1px 2px 0 rgb(15 23 42 / 0.04);
+  --shadow-soft-sm: 0 1px 2px 0 rgb(15 23 42 / 0.04), 0 1px 3px 0 rgb(15 23 42 / 0.06);
+  --shadow-soft-md: 0 2px 4px -1px rgb(15 23 42 / 0.05), 0 4px 12px -2px rgb(15 23 42 / 0.08);
+  --shadow-soft-lg: 0 4px 8px -2px rgb(15 23 42 / 0.06), 0 12px 28px -6px rgb(15 23 42 / 0.1);
+  --shadow-soft-xl: 0 8px 16px -4px rgb(15 23 42 / 0.08), 0 24px 48px -12px rgb(15 23 42 / 0.14);
+
+  /* --- Charts ----------------------------------------------------------- */
+  --chart-1: var(--brand-600);
+  --chart-2: var(--teal-600);
+  --chart-3: var(--amber-500);
+  --chart-4: var(--violet-600);
+  --chart-5: #e11d48;
+
+  /* --- Spartan / shadcn semantic contract ------------------------------- */
+  --background: #ffffff;
+  --foreground: var(--neutral-900);
+
+  --card: #ffffff;
+  --card-foreground: var(--neutral-900);
+
+  --popover: #ffffff;
+  --popover-foreground: var(--neutral-900);
+
+  --primary: var(--brand-600);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--neutral-100);
+  --secondary-foreground: var(--neutral-800);
+
+  --muted: var(--neutral-100);
+  --muted-foreground: var(--neutral-500);
+
+  --accent: var(--brand-50);
+  --accent-foreground: var(--brand-800);
+
+  --destructive: var(--danger);
+  --destructive-foreground: #ffffff;
+
+  --border: var(--neutral-200);
+  --input: var(--neutral-200);
+  --ring: var(--brand-500);
+
+  --sidebar: var(--neutral-50);
+  --sidebar-foreground: var(--neutral-700);
+  --sidebar-primary: var(--brand-600);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--brand-50);
+  --sidebar-accent-foreground: var(--brand-800);
+  --sidebar-border: var(--neutral-200);
+  --sidebar-ring: var(--brand-500);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: var(--neutral-950);
+  --foreground: var(--neutral-100);
+
+  --card: var(--neutral-900);
+  --card-foreground: var(--neutral-100);
+
+  --popover: var(--neutral-900);
+  --popover-foreground: var(--neutral-100);
+
+  --primary: var(--brand-500);
+  --primary-foreground: var(--brand-950);
+
+  --secondary: var(--neutral-800);
+  --secondary-foreground: var(--neutral-100);
+
+  --muted: var(--neutral-800);
+  --muted-foreground: var(--neutral-400);
+
+  --accent: #0c2c42;
+  --accent-foreground: var(--brand-200);
+
+  --border: rgb(255 255 255 / 12%);
+  --input: rgb(255 255 255 / 16%);
+  --ring: var(--brand-400);
+
+  --sidebar: var(--neutral-900);
+  --sidebar-foreground: var(--neutral-300);
+  --sidebar-primary: var(--brand-500);
+  --sidebar-primary-foreground: var(--brand-950);
+  --sidebar-accent: #0c2c42;
+  --sidebar-accent-foreground: var(--brand-200);
+  --sidebar-border: rgb(255 255 255 / 12%);
+  --sidebar-ring: var(--brand-400);
+
+  --success-soft: #052e24;
+  --success-soft-foreground: #6ee7b7;
+  --success-border: #065f46;
+  --info-soft: #082f49;
+  --info-soft-foreground: #7dd3fc;
+  --info-border: #075985;
+  --warning-soft: #3b2404;
+  --warning-soft-foreground: #fcd34d;
+  --warning-border: #92400e;
+  --danger-soft: #3f1111;
+  --danger-soft-foreground: #fca5a5;
+  --danger-border: #991b1b;
+  --credit-soft: #3d1c05;
+  --credit-soft-foreground: #fdba74;
+  --credit-border: #9a3412;
+
+  --status-pending-soft: #3b2404;
+  --status-pending-foreground: #fcd34d;
+  --status-pending-border: #92400e;
+  --status-in-transit-soft: #082f49;
+  --status-in-transit-foreground: #7dd3fc;
+  --status-in-transit-border: #075985;
+}
+
+/* =============================================================================
+ * Tailwind theme registration — exposes tokens as utilities
+ * e.g. bg-brand-600, text-success, border-status-pending, shadow-soft-md
+ * ========================================================================== */
+
+@theme inline {
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+  --color-brand-950: var(--brand-950);
+
+  --color-brand-teal-50: var(--teal-50);
+  --color-brand-teal-100: var(--teal-100);
+  --color-brand-teal-200: var(--teal-200);
+  --color-brand-teal-300: var(--teal-300);
+  --color-brand-teal-400: var(--teal-400);
+  --color-brand-teal-500: var(--teal-500);
+  --color-brand-teal-600: var(--teal-600);
+  --color-brand-teal-700: var(--teal-700);
+  --color-brand-teal-800: var(--teal-800);
+  --color-brand-teal-900: var(--teal-900);
+
+  --color-brand-amber-50: var(--amber-50);
+  --color-brand-amber-100: var(--amber-100);
+  --color-brand-amber-200: var(--amber-200);
+  --color-brand-amber-300: var(--amber-300);
+  --color-brand-amber-400: var(--amber-400);
+  --color-brand-amber-500: var(--amber-500);
+  --color-brand-amber-600: var(--amber-600);
+  --color-brand-amber-700: var(--amber-700);
+  --color-brand-amber-800: var(--amber-800);
+  --color-brand-amber-900: var(--amber-900);
+
+  --color-violet-50: var(--violet-50);
+  --color-violet-100: var(--violet-100);
+  --color-violet-200: var(--violet-200);
+  --color-violet-500: var(--violet-500);
+  --color-violet-600: var(--violet-600);
+  --color-violet-700: var(--violet-700);
+
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+  --color-neutral-950: var(--neutral-950);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-soft: var(--success-soft);
+  --color-success-soft-foreground: var(--success-soft-foreground);
+  --color-success-border: var(--success-border);
+
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-soft: var(--info-soft);
+  --color-info-soft-foreground: var(--info-soft-foreground);
+  --color-info-border: var(--info-border);
+
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-soft-foreground: var(--warning-soft-foreground);
+  --color-warning-border: var(--warning-border);
+
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-soft-foreground: var(--danger-soft-foreground);
+  --color-danger-border: var(--danger-border);
+
+  --color-credit: var(--credit);
+  --color-credit-foreground: var(--credit-foreground);
+  --color-credit-soft: var(--credit-soft);
+  --color-credit-soft-foreground: var(--credit-soft-foreground);
+  --color-credit-border: var(--credit-border);
+
+  --color-status-pending: var(--status-pending);
+  --color-status-pending-soft: var(--status-pending-soft);
+  --color-status-pending-foreground: var(--status-pending-foreground);
+  --color-status-pending-border: var(--status-pending-border);
+  --color-status-in-transit: var(--status-in-transit);
+  --color-status-in-transit-soft: var(--status-in-transit-soft);
+  --color-status-in-transit-foreground: var(--status-in-transit-foreground);
+  --color-status-in-transit-border: var(--status-in-transit-border);
+  --color-status-delivered: var(--status-delivered);
+  --color-status-delivered-soft: var(--status-delivered-soft);
+  --color-status-delivered-foreground: var(--status-delivered-foreground);
+  --color-status-delivered-border: var(--status-delivered-border);
+  --color-status-cancelled: var(--status-cancelled);
+  --color-status-cancelled-soft: var(--status-cancelled-soft);
+  --color-status-cancelled-foreground: var(--status-cancelled-foreground);
+  --color-status-cancelled-border: var(--status-cancelled-border);
+  --color-status-credit: var(--status-credit);
+  --color-status-credit-soft: var(--status-credit-soft);
+  --color-status-credit-foreground: var(--status-credit-foreground);
+  --color-status-credit-border: var(--status-credit-border);
+
+  --font-display: var(--font-display);
+
+  --shadow-soft-xs: var(--shadow-soft-xs);
+  --shadow-soft-sm: var(--shadow-soft-sm);
+  --shadow-soft-md: var(--shadow-soft-md);
+  --shadow-soft-lg: var(--shadow-soft-lg);
+  --shadow-soft-xl: var(--shadow-soft-xl);
+
+  /* Typography scale — Thai-first line heights (1.6 for body copy) */
+  --text-display: 2.25rem;
+  --text-display--line-height: 2.75rem;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 700;
+
+  --text-h1: 1.875rem;
+  --text-h1--line-height: 2.375rem;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h1--font-weight: 700;
+
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 2rem;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h2--font-weight: 600;
+
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.75rem;
+  --text-h3--font-weight: 600;
+
+  --text-h4: 1.125rem;
+  --text-h4--line-height: 1.625rem;
+  --text-h4--font-weight: 600;
+
+  --text-body-lg: 1rem;
+  --text-body-lg--line-height: 1.625rem;
+
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.5rem;
+
+  --text-body-sm: 0.8125rem;
+  --text-body-sm--line-height: 1.25rem;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1rem;
+
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.125rem;
+  --text-label--font-weight: 500;
+}
+
+/* =============================================================================
+ * Base
+ * ========================================================================== */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply antialiased;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-synthesis-weight: none;
+    line-height: 1.6;
+  }
+
+  :lang(th) {
+    line-height: 1.65;
+    word-break: break-word;
+  }
+
+  /* Numeric data (amounts, bottle counts) reads better with tabular figures */
+  .tabular-nums,
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Data-dense surfaces get a slim scrollbar */
+  .thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 9999px;
+  }
+}
