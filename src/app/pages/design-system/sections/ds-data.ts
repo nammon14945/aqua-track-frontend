@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import { HlmAvatarImports } from '@spartan-ng/helm/avatar';
 import { HlmBadgeImports } from '@spartan-ng/helm/badge';
@@ -24,12 +24,17 @@ import { type ChipStatus } from '../../../shared/models/domain';
 import { DsPreview } from '../components/ds-preview';
 import { DsSection } from '../components/ds-section';
 
+interface PackCount {
+  readonly cases: number;
+  readonly bottles: number;
+}
+
 interface OrderRow {
   readonly id: string;
   readonly customer: string;
   readonly address: string;
-  readonly bottles: number;
-  readonly returned: number;
+  readonly delivered: PackCount;
+  readonly returned: PackCount;
   readonly amount: number;
   readonly status: ChipStatus;
   readonly date: string;
@@ -207,11 +212,11 @@ interface OrderRow {
 
       <app-ds-preview
         title="Data table"
-        description="ตารางข้อมูลหนาแน่น — zebra row, sticky header, checkbox เลือกแถว และตัวเลขแบบ tabular-nums"
+        description="ตารางข้อมูลหนาแน่น — zebra row, sticky header, checkbox เลือกแถว, คอลัมน์จำนวนแยก ลัง/ถัง และตัวเลขแบบ tabular-nums"
         [padded]="false"
         code='&lt;div hlmTableContainer&gt;
   &lt;table hlmTable&gt;
-    &lt;thead hlmTHead class="sticky top-0 z-10 bg-background"&gt;...&lt;/thead&gt;
+    &lt;thead hlmTHead class="sticky top-0 z-10 bg-muted"&gt;...&lt;/thead&gt;
     &lt;tbody hlmTBody&gt;...&lt;/tbody&gt;
   &lt;/table&gt;
 &lt;/div&gt;'
@@ -234,17 +239,19 @@ interface OrderRow {
 
           <div hlmTableContainer class="thin-scrollbar max-h-96">
             <table hlmTable>
-              <thead hlmTHead class="bg-background sticky top-0 z-10">
+              <thead hlmTHead class="bg-muted sticky top-0 z-10">
                 <tr hlmTr class="hover:bg-transparent">
                   <th hlmTh class="w-10">
                     <hlm-checkbox aria-label="เลือกทั้งหมด" />
                   </th>
-                  <th hlmTh>ลูกค้า / ที่อยู่</th>
-                  <th hlmTh class="text-end">ส่ง (ถัง)</th>
-                  <th hlmTh class="text-end">คืนถัง</th>
-                  <th hlmTh class="text-end">ยอดเงิน</th>
-                  <th hlmTh>สถานะ</th>
-                  <th hlmTh>วันที่</th>
+                  <th hlmTh class="text-label text-muted-foreground">ลูกค้า / ที่อยู่</th>
+                  <th hlmTh class="text-label text-muted-foreground text-end">ส่ง (ลัง)</th>
+                  <th hlmTh class="text-label text-muted-foreground text-end">ส่ง (ถัง)</th>
+                  <th hlmTh class="text-label text-muted-foreground text-end">คืน (ลัง)</th>
+                  <th hlmTh class="text-label text-muted-foreground text-end">คืน (ถัง)</th>
+                  <th hlmTh class="text-label text-muted-foreground text-end">ยอดเงิน</th>
+                  <th hlmTh class="text-label text-muted-foreground">สถานะ</th>
+                  <th hlmTh class="text-label text-muted-foreground">วันที่</th>
                   <th hlmTh class="w-12"></th>
                 </tr>
               </thead>
@@ -260,21 +267,33 @@ interface OrderRow {
                         <span class="text-caption text-muted-foreground">{{ row.address }}</span>
                       </div>
                     </td>
-                    <td hlmTd class="text-end">
-                      <app-bottle-count
-                        [value]="row.bottles"
-                        size="sm"
-                        tone="brand"
-                        [emphasis]="'strong'"
-                      />
+                    <td
+                      hlmTd
+                      class="text-body-sm text-brand-700 text-end font-semibold tabular-nums"
+                      data-numeric
+                    >
+                      {{ row.delivered.cases }}
                     </td>
-                    <td hlmTd class="text-end">
-                      <app-bottle-count
-                        [value]="row.returned"
-                        size="sm"
-                        tone="muted"
-                        [signed]="true"
-                      />
+                    <td
+                      hlmTd
+                      class="text-body-sm text-brand-700 text-end font-semibold tabular-nums"
+                      data-numeric
+                    >
+                      {{ row.delivered.bottles }}
+                    </td>
+                    <td
+                      hlmTd
+                      class="text-body-sm text-muted-foreground text-end tabular-nums"
+                      data-numeric
+                    >
+                      {{ row.returned.cases }}
+                    </td>
+                    <td
+                      hlmTd
+                      class="text-body-sm text-muted-foreground text-end tabular-nums"
+                      data-numeric
+                    >
+                      {{ row.returned.bottles }}
                     </td>
                     <td hlmTd class="text-end tabular-nums" data-numeric>{{ row.amount | thb }}</td>
                     <td hlmTd><app-status-chip [status]="row.status" /></td>
@@ -292,9 +311,21 @@ interface OrderRow {
               <tfoot hlmTFoot>
                 <tr hlmTr class="hover:bg-transparent">
                   <td hlmTd colspan="2" class="text-body-sm font-medium">รวม</td>
-                  <td hlmTd class="text-end font-semibold tabular-nums" data-numeric>1,248</td>
-                  <td hlmTd class="text-end font-semibold tabular-nums" data-numeric>+312</td>
-                  <td hlmTd class="text-end font-semibold tabular-nums" data-numeric>฿42,860.00</td>
+                  <td hlmTd class="text-end font-semibold tabular-nums" data-numeric>
+                    {{ totals().deliveredCases }}
+                  </td>
+                  <td hlmTd class="text-end font-semibold tabular-nums" data-numeric>
+                    {{ totals().deliveredBottles }}
+                  </td>
+                  <td hlmTd class="text-end font-semibold tabular-nums" data-numeric>
+                    {{ totals().returnedCases }}
+                  </td>
+                  <td hlmTd class="text-end font-semibold tabular-nums" data-numeric>
+                    {{ totals().returnedBottles }}
+                  </td>
+                  <td hlmTd class="text-end font-semibold tabular-nums" data-numeric>
+                    {{ totals().amount | thb }}
+                  </td>
                   <td hlmTd colspan="3"></td>
                 </tr>
               </tfoot>
@@ -521,8 +552,8 @@ export class DsData {
       id: 'ORD-6901',
       customer: 'บ้านคุณสมศรี',
       address: '121/4 หมู่ 3 ต.บางทราย',
-      bottles: 24,
-      returned: 18,
+      delivered: { cases: 0, bottles: 24 },
+      returned: { cases: 0, bottles: 18 },
       amount: 3480,
       status: 'delivered',
       date: '2026-09-17T08:12:00',
@@ -531,8 +562,8 @@ export class DsData {
       id: 'ORD-6902',
       customer: 'ร้านอาหารครัวไทย',
       address: '88 ถ.สุขุมวิท',
-      bottles: 120,
-      returned: 96,
+      delivered: { cases: 1, bottles: 120 },
+      returned: { cases: 1, bottles: 96 },
       amount: 17400,
       status: 'in-transit',
       date: '2026-09-17T09:05:00',
@@ -541,8 +572,8 @@ export class DsData {
       id: 'ORD-6903',
       customer: 'ร้านกาแฟบ้านสวน',
       address: '45/2 ต.ในเมือง',
-      bottles: 36,
-      returned: 0,
+      delivered: { cases: 0, bottles: 36 },
+      returned: { cases: 0, bottles: 0 },
       amount: 0,
       status: 'credit',
       date: '2026-09-17T09:40:00',
@@ -551,8 +582,8 @@ export class DsData {
       id: 'ORD-6904',
       customer: 'อพาร์ทเมนต์สุขใจ',
       address: '9 ซ.5 ต.หนองปรือ',
-      bottles: 60,
-      returned: 60,
+      delivered: { cases: 2, bottles: 60 },
+      returned: { cases: 2, bottles: 60 },
       amount: 8700,
       status: 'pending',
       date: '2026-09-17T10:20:00',
@@ -561,8 +592,8 @@ export class DsData {
       id: 'ORD-6905',
       customer: 'ร้านข้าวแกงป้าแดง',
       address: '3 ต.ท่าศาลา',
-      bottles: 12,
-      returned: 8,
+      delivered: { cases: 1, bottles: 2 },
+      returned: { cases: 0, bottles: 0 },
       amount: 1740,
       status: 'cancelled',
       date: '2026-09-17T11:02:00',
@@ -571,11 +602,24 @@ export class DsData {
       id: 'ORD-6906',
       customer: 'บริษัท ก่อสร้างรุ่งเรือง',
       address: '99 แขวงบางนา',
-      bottles: 240,
-      returned: 200,
+      delivered: { cases: 0, bottles: 240 },
+      returned: { cases: 0, bottles: 200 },
       amount: 32000,
       status: 'delivered',
       date: '2026-09-17T13:15:00',
     },
   ];
+
+  protected readonly totals = computed(() =>
+    this.orders.reduce(
+      (acc, row) => ({
+        deliveredCases: acc.deliveredCases + row.delivered.cases,
+        deliveredBottles: acc.deliveredBottles + row.delivered.bottles,
+        returnedCases: acc.returnedCases + row.returned.cases,
+        returnedBottles: acc.returnedBottles + row.returned.bottles,
+        amount: acc.amount + row.amount,
+      }),
+      { deliveredCases: 0, deliveredBottles: 0, returnedCases: 0, returnedBottles: 0, amount: 0 },
+    ),
+  );
 }

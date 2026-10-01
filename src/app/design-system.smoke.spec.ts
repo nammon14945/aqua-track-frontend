@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { provideIcons } from '@ng-icons/core';
 import { provideSpartanHlm } from '@spartan-ng/helm/utils';
-import { type Type } from '@angular/core';
+import { ApplicationRef, type Type } from '@angular/core';
 import { APP_ICONS } from './core/icons';
 import { AdminLayout } from './layouts/admin-layout/admin-layout';
 import { AdminDashboard } from './pages/admin/dashboard';
@@ -64,6 +64,49 @@ describe('Design system smoke tests', () => {
     expect(el.querySelector('app-payment-chip [data-mode="credit"]')).toBeTruthy();
     expect(el.querySelector('app-payment-chip [data-mode="coupon"]')).toBeTruthy();
     expect(el.querySelectorAll('app-filter-chips [role="tab"]').length).toBe(4);
+  });
+
+  it('keeps the selected payment mode button readable (primary bg + light text)', async () => {
+    const fixture = await setup(DesignSystem);
+    // รอ MutationObserver ของ class manager ใน spartan-ng ทำงานก่อนตรวจคลาสที่ merge แล้ว
+    await new Promise((resolve) => setTimeout(resolve));
+    fixture.detectChanges();
+
+    const buttons = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLButtonElement>(
+      'app-payment-mode-selector button[role="radio"]',
+    );
+    expect(buttons.length).toBe(4);
+
+    const selected = Array.from(buttons).find(
+      (button) => button.getAttribute('aria-checked') === 'true',
+    );
+    expect(selected).toBeTruthy();
+    expect(selected?.classList.contains('bg-primary')).toBe(true);
+    expect(selected?.classList.contains('text-primary-foreground')).toBe(true);
+    expect(selected?.classList.contains('text-label')).toBe(true);
+  });
+
+  it('opens the dialog service demo as a full card with actions', async () => {
+    const fixture = await setup(DesignSystem);
+
+    const trigger = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLButtonElement>('button'),
+    ).find((button) => button.textContent?.includes('เปิด dialog จาก service'));
+    expect(trigger).toBeTruthy();
+
+    trigger?.click();
+    TestBed.inject(ApplicationRef).tick();
+
+    const dialog = document.body.querySelector<HTMLElement>('[data-slot="dialog-content"]');
+    expect(dialog).toBeTruthy();
+    expect(dialog?.textContent).toContain('ยืนยันการตัดสต็อก');
+    expect(
+      Array.from(dialog?.querySelectorAll('hlm-dialog-footer button') ?? []).map((button) =>
+        button.textContent?.trim(),
+      ),
+    ).toEqual(['ยกเลิก', 'ยืนยัน']);
+
+    document.querySelectorAll('.cdk-overlay-container').forEach((container) => container.remove());
   });
 
   it('renders thai date and THB formatting', async () => {

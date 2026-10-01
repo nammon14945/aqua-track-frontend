@@ -51,7 +51,8 @@ export class DsPreview {
 
   protected readonly copied = signal(false);
 
-  protected readonly _bodyClass = () => (this.padded() ? 'p-4' : '');
+  protected readonly _bodyClass = () =>
+    this.padded() ? 'flex flex-wrap items-center gap-2 p-4' : 'flex flex-wrap items-center gap-2';
 
   protected async copy(): Promise<void> {
     const code = this.code();

@@ -317,47 +317,17 @@ interface RecentOrder {
 
         <div hlmTableContainer class="thin-scrollbar">
           <table hlmTable>
-            <thead hlmTHead class="bg-muted/50 sticky top-0 z-10">
+            <thead hlmTHead class="bg-muted sticky top-0 z-10">
               <tr hlmTr class="hover:bg-transparent">
-                <th hlmTh class="text-caption text-muted-foreground uppercase tracking-wider">
-                  รหัสออเดอร์
-                </th>
-                <th hlmTh class="text-caption text-muted-foreground uppercase tracking-wider">
-                  วันที่ - เวลา
-                </th>
-                <th hlmTh class="text-caption text-muted-foreground uppercase tracking-wider">
-                  ชื่อลูกค้า
-                </th>
-                <th hlmTh class="text-caption text-muted-foreground uppercase tracking-wider">
-                  รายการสินค้า
-                </th>
-                <th hlmTh class="text-caption text-muted-foreground uppercase tracking-wider">
-                  สายรถขนส่ง
-                </th>
-                <th
-                  hlmTh
-                  class="text-caption text-muted-foreground text-end uppercase tracking-wider"
-                >
-                  มูลค่ารวม
-                </th>
-                <th
-                  hlmTh
-                  class="text-caption text-muted-foreground text-center uppercase tracking-wider"
-                >
-                  วิธีชำระเงิน
-                </th>
-                <th
-                  hlmTh
-                  class="text-caption text-muted-foreground text-center uppercase tracking-wider"
-                >
-                  สถานะ
-                </th>
-                <th
-                  hlmTh
-                  class="text-caption text-muted-foreground text-center uppercase tracking-wider"
-                >
-                  จัดการ
-                </th>
+                <th hlmTh class="text-label text-muted-foreground">รหัสออเดอร์</th>
+                <th hlmTh class="text-label text-muted-foreground">วันที่ - เวลา</th>
+                <th hlmTh class="text-label text-muted-foreground">ชื่อลูกค้า</th>
+                <th hlmTh class="text-label text-muted-foreground">รายการสินค้า</th>
+                <th hlmTh class="text-label text-muted-foreground">สายรถขนส่ง</th>
+                <th hlmTh class="text-label text-muted-foreground text-end">มูลค่ารวม</th>
+                <th hlmTh class="text-label text-muted-foreground text-center">วิธีชำระเงิน</th>
+                <th hlmTh class="text-label text-muted-foreground text-center">สถานะ</th>
+                <th hlmTh class="text-label text-muted-foreground text-center">จัดการ</th>
               </tr>
             </thead>
             <tbody hlmTBody>

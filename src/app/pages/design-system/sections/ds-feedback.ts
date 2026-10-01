@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, TemplateRef, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
 import { toast } from '@spartan-ng/brain/sonner';
-import type { BrnDialogRef } from '@spartan-ng/brain/dialog';
 import { HlmAlertDialogImports } from '@spartan-ng/helm/alert-dialog';
 import { HlmAlertImports } from '@spartan-ng/helm/alert';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
@@ -14,6 +13,7 @@ import { HlmSheetImports } from '@spartan-ng/helm/sheet';
 import { HlmTooltipImports } from '@spartan-ng/helm/tooltip';
 import { DsPreview } from '../components/ds-preview';
 import { DsSection } from '../components/ds-section';
+import { DsConfirmStockDialog } from './ds-confirm-stock-dialog';
 
 @Component({
   selector: 'app-ds-feedback',
@@ -135,17 +135,6 @@ import { DsSection } from '../components/ds-section';
           <ng-icon name="lucideSparkles" data-icon="inline-start" />
           เปิด dialog จาก service
         </button>
-
-        <ng-template #tplDialog>
-          <hlm-dialog-header>
-            <h3 hlmDialogTitle>ยืนยันการตัดสต็อก</h3>
-            <p hlmDialogDescription>ระบบจะตัดสต็อกทันทีหลังยืนยัน</p>
-          </hlm-dialog-header>
-          <hlm-dialog-footer>
-            <button hlmBtn variant="outline" (click)="closeServiceDialog()">ยกเลิก</button>
-            <button hlmBtn (click)="confirmServiceDialog()">ยืนยัน</button>
-          </hlm-dialog-footer>
-        </ng-template>
       </app-ds-preview>
 
       <app-ds-preview
@@ -259,9 +248,6 @@ export class DsFeedback {
   private readonly _dialogService = inject(HlmDialogService);
 
   protected readonly toast = toast;
-  protected readonly dialogTpl = viewChild.required<TemplateRef<unknown>>('tplDialog');
-
-  private _serviceDialogRef?: BrnDialogRef<unknown>;
 
   protected notifySaved(): void {
     toast.success('บันทึกเรียบร้อย', { description: 'ข้อมูลถูกอัปเดตแล้ว' });
@@ -272,17 +258,12 @@ export class DsFeedback {
   }
 
   protected openDialog(): void {
-    this._serviceDialogRef = this._dialogService.open(this.dialogTpl(), {
-      contentClass: 'sm:max-w-sm',
-    });
-  }
-
-  protected closeServiceDialog(): void {
-    void this._serviceDialogRef?.close();
-  }
-
-  protected confirmServiceDialog(): void {
-    this.closeServiceDialog();
-    this.notifySaved();
+    this._dialogService
+      .open<boolean>(DsConfirmStockDialog, { contentClass: 'sm:max-w-sm' })
+      .closed$.subscribe((confirmed) => {
+        if (confirmed) {
+          this.notifySaved();
+        }
+      });
   }
 }

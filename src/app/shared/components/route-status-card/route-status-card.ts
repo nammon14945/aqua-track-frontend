@@ -8,10 +8,10 @@ import { type ChipStatus } from '../../models/domain';
   selector: 'app-route-status-card',
   imports: [NgIcon, StatusChip, ProgressBar],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'block' },
+  host: { class: 'block h-full' },
   template: `
     <article
-      class="bg-card text-card-foreground flex flex-col gap-3 rounded-xl border p-4 shadow-soft-sm transition-shadow hover:shadow-soft-md"
+      class="bg-card text-card-foreground flex h-full flex-col gap-3 rounded-xl border p-4 shadow-soft-sm transition-shadow hover:shadow-soft-md"
     >
       <header class="flex items-start justify-between gap-3">
         <div class="flex items-center gap-3">
@@ -41,7 +41,7 @@ import { type ChipStatus } from '../../models/domain';
         <app-progress-bar [value]="percent()" [tone]="progressTone()" size="md" />
       </div>
 
-      <footer class="flex items-center justify-between gap-2 text-caption">
+      <footer class="mt-auto flex items-center justify-between gap-2 text-caption">
         <div class="flex items-center gap-3">
           <span class="inline-flex items-center gap-1 tabular-nums" data-numeric>
             <ng-icon name="lucideCircleCheck" class="text-success" />

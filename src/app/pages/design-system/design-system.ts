@@ -55,16 +55,18 @@ interface NavGroup {
 
             @for (group of nav; track group.label) {
               <div class="flex flex-col gap-1 py-2">
-                <span class="text-caption text-muted-foreground px-2 font-medium">{{
-                  group.label
-                }}</span>
+                <span
+                  class="text-caption text-primary px-2 font-semibold uppercase tracking-wider select-none"
+                  >{{ group.label }}</span
+                >
                 @for (item of group.items; track item.id) {
                   <a
                     class="text-body-sm text-muted-foreground hover:bg-muted hover:text-foreground rounded-md px-2 py-1.5 transition-colors"
                     [class.text-foreground]="active() === item.id"
                     [class.font-medium]="active() === item.id"
                     [attr.aria-current]="active() === item.id ? 'true' : null"
-                    [href]="'#' + item.id"
+                    [routerLink]="[]"
+                    [fragment]="item.id"
                     (click)="active.set(item.id)"
                   >
                     {{ item.label }}

@@ -10,7 +10,21 @@ import {
   runInInjectionContext,
 } from '@angular/core';
 import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { extendTailwindMerge } from 'tailwind-merge';
+
+/**
+ * โปรเจคนี้กำหนดสเกลฟอนต์เองใน `src/styles.css` (@theme) เช่น text-label, text-caption
+ * tailwind-merge ไม่รู้จักชื่อเหล่านี้โดยค่าเริ่มต้น จึงจัดเป็นกลุ่ม "สีตัวอักษร" (text-color)
+ * แล้วตัดคลาสสีจริงทิ้งเมื่ออยู่บน element เดียวกัน (เช่น text-label + text-primary-foreground
+ * ทำให้ข้อความบนปุ่มที่เลือกเป็นสีดำ) — ลงทะเบียนสเกลของโปรเจคเพื่อให้จัดกลุ่มถูกต้อง
+ */
+const twMerge = extendTailwindMerge({
+  extend: {
+    theme: {
+      text: ['display', 'h1', 'h2', 'h3', 'h4', 'body-lg', 'body', 'body-sm', 'caption', 'label'],
+    },
+  },
+});
 
 export function hlm(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
