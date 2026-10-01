@@ -30,7 +30,7 @@ import { DsSection } from '../components/ds-section';
       id="navigation"
       eyebrow="Components"
       title="Navigation"
-      description="นำทางระหว่างหน้าและซ่อนเนื้อหาที่ไม่จำเป็น — Sidebar/Topbar ดูได้จากเลย์เอาต์จริงที่หน้า แดชบอร์ด และ หน้าคนขับ"
+      description="นำทางระหว่างหน้าและซ่อนเนื้อหาที่ไม่จำเป็น — ตัวอย่างคอมโพเนนต์นำทางที่พร้อมใช้ในทุกหน้าจอ"
     >
       <app-ds-preview
         title="Breadcrumb"
@@ -39,7 +39,7 @@ import { DsSection } from '../components/ds-section';
         <nav hlmBreadcrumb>
           <ol hlmBreadcrumbList>
             <li hlmBreadcrumbItem>
-              <a hlmBreadcrumbLink routerLink="/admin/dashboard">ภาพรวม</a>
+              <a hlmBreadcrumbLink routerLink="/design-system">ภาพรวม</a>
             </li>
             <li hlmBreadcrumbSeparator></li>
             <li hlmBreadcrumbItem>
@@ -170,18 +170,6 @@ import { DsSection } from '../components/ds-section';
               ตัวกรอง: โซนส่งน้ำ · ช่วงวันที่ · สถานะการชำระ · จำนวนถังค้าง
             </div>
           </div>
-        </div>
-      </app-ds-preview>
-
-      <app-ds-preview
-        title="Layout — Admin"
-        description="เลย์เอาต์หลักของระบบ: Sidebar + Topbar สำหรับแอดมิน"
-      >
-        <div class="flex flex-wrap gap-2">
-          <a hlmBtn variant="outline" routerLink="/admin/dashboard">
-            <ng-icon name="lucideLayoutDashboard" data-icon="inline-start" />
-            ดูตัวอย่าง Admin layout
-          </a>
         </div>
       </app-ds-preview>
     </app-ds-section>

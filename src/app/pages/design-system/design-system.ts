@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgIcon } from '@ng-icons/core';
-import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { PageHeader } from '../../shared/components/page-header/page-header';
 import { ThemeToggle } from '../../shared/components/theme-toggle/theme-toggle';
 import { DsActions } from './sections/ds-actions';
@@ -21,8 +19,6 @@ interface NavGroup {
   selector: 'app-design-system',
   imports: [
     RouterLink,
-    NgIcon,
-    HlmButtonImports,
     PageHeader,
     ThemeToggle,
     DsColors,
@@ -85,10 +81,6 @@ interface NavGroup {
           title="Design System"
           description="รวม design tokens, reusable components และข้อกำหนดการแสดงผลของระบบจัดการบริษัทผลิตน้ำดื่ม ทุกอย่างอ้างอิงจาก Stitch 'Water Delivery Design System' และพร้อมนำไปใช้ซ้ำในทุกหน้าจอ"
         >
-          <a hlmBtn variant="outline" routerLink="/admin/dashboard">
-            <ng-icon name="lucideLayoutDashboard" data-icon="inline-start" />
-            Admin layout
-          </a>
           <app-theme-toggle />
         </app-page-header>
 

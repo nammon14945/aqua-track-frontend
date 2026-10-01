@@ -12,22 +12,6 @@ export const routes: Routes = [
     title: 'Design System · AquaTrack Pro',
   },
   {
-    path: 'admin',
-    loadComponent: () => import('./layouts/admin-layout/admin-layout').then((m) => m.AdminLayout),
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'dashboard',
-      },
-      {
-        path: 'dashboard',
-        loadComponent: () => import('./pages/admin/dashboard').then((m) => m.AdminDashboard),
-        title: 'แดชบอร์ด · AquaTrack Pro',
-      },
-    ],
-  },
-  {
     path: '**',
     redirectTo: 'design-system',
   },
