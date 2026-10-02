@@ -9,7 +9,7 @@
     description="ใช้กับปุ่มหลัก ลิงก์ สถานะกำลังส่ง และกราฟหลัก"
     [padded]="true"
   >
-    <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-11">
+    <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-8 2xl:grid-cols-11">
       @for (c of brand; track c.step) {
         <app-ds-swatch [name]="'brand-' + c.step" [value]="c.value" [swatchClass]="c.cls" />
       }
@@ -18,12 +18,12 @@
 
   <app-ds-preview title="Secondary (Teal) และ Tertiary (Amber)" [padded]="true">
     <div class="flex w-full flex-col gap-5">
-      <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-10">
+      <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-8 2xl:grid-cols-10">
         @for (c of teal; track c.step) {
           <app-ds-swatch [name]="'teal-' + c.step" [value]="c.value" [swatchClass]="c.cls" />
         }
       </div>
-      <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-10">
+      <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-8 2xl:grid-cols-10">
         @for (c of amber; track c.step) {
           <app-ds-swatch [name]="'amber-' + c.step" [value]="c.value" [swatchClass]="c.cls" />
         }
@@ -32,7 +32,7 @@
   </app-ds-preview>
 
   <app-ds-preview title="Neutral scale" [padded]="true">
-    <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-11">
+    <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-8 2xl:grid-cols-11">
       @for (c of neutral; track c.step) {
         <app-ds-swatch [name]="'neutral-' + c.step" [value]="c.value" [swatchClass]="c.cls" />
       }
@@ -44,7 +44,7 @@
     description="โทเคนเชิงความหมายที่ map เข้า CSS variables ของ Spartan — เปลี่ยนแบรนด์ได้ในที่เดียว"
     [padded]="true"
   >
-    <div class="grid w-full grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
+    <div class="grid w-full grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
       @for (c of semantic; track c.name) {
         <app-ds-swatch
           [name]="'--' + c.name"
