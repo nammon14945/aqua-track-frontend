@@ -1,0 +1,115 @@
+<hlm-sidebar collapsible="icon" sidebarContainerClass="border-sidebar-border">
+  <!-- Brand + primary action -->
+  <div
+    hlmSidebarHeader
+    class="gap-3 border-sidebar-border border-b p-3 transition-[padding] duration-200 ease-linear group-data-[collapsible=icon]:px-2"
+  >
+    <div class="flex items-center gap-3">
+      <div
+        class="bg-primary text-primary-foreground dark:text-white shadow-soft-xs flex size-10 shrink-0 items-center justify-center rounded-xl"
+      >
+        <ng-icon name="lucideDroplet" class="text-2xl" />
+      </div>
+      <div
+        class="max-w-45 min-w-0 overflow-hidden opacity-100 transition-[max-width,opacity] duration-200 ease-linear group-data-[collapsible=icon]:max-w-0 group-data-[collapsible=icon]:opacity-0"
+      >
+        <div class="text-h4 flex items-center gap-1.5 leading-tight">
+          <span class="truncate">AquaTrack Pro</span>
+          <span class="bg-success size-1.5 shrink-0 rounded-full"></span>
+        </div>
+        <p class="text-caption text-muted-foreground truncate">จัดการโรงงานและจัดส่งน้ำดื่ม</p>
+      </div>
+    </div>
+
+    <a
+      routerLink="/orders"
+      class="bg-brand-600 text-white hover:bg-brand-700 shadow-soft-xs text-body-sm flex h-10 w-full items-center justify-center gap-2 rounded-lg font-medium transition-[color,background-color,gap] duration-200 ease-linear group-data-[collapsible=icon]:gap-0 group-data-[collapsible=icon]:p-0"
+    >
+      <ng-icon name="lucidePlus" class="shrink-0 text-[18px]" />
+      <span
+        class="max-w-40 truncate opacity-100 transition-[max-width,opacity] duration-200 ease-linear group-data-[collapsible=icon]:max-w-0 group-data-[collapsible=icon]:opacity-0"
+        >สร้างออเดอร์ใหม่</span
+      >
+    </a>
+  </div>
+
+  <!-- Grouped navigation -->
+  <nav hlmSidebarContent class="py-2">
+    @for (group of nav; track group.label) {
+      <div hlmSidebarGroup>
+        <div hlmSidebarGroupLabel class="text-muted-foreground">{{ group.label }}</div>
+        <ul hlmSidebarMenu class="gap-1">
+          @for (item of group.items; track item.route) {
+            <li hlmSidebarMenuItem>
+              <a
+                hlmSidebarMenuButton
+                class="h-10 duration-200 ease-linear group-data-[collapsible=icon]:size-10!"
+                [routerLink]="item.route"
+                routerLinkActive
+                #rla="routerLinkActive"
+                [isActive]="rla.isActive"
+                [tooltip]="item.label"
+              >
+                <ng-icon [name]="item.icon" class="shrink-0" />
+                <span
+                  class="truncate opacity-100 transition-opacity duration-200 ease-linear group-data-[collapsible=icon]:opacity-0"
+                  >{{ item.label }}</span
+                >
+                @if (item.badge) {
+                  <span
+                    hlmSidebarMenuBadge
+                    class="bg-warning font-semibold text-white opacity-100 transition-opacity duration-200 ease-linear group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:opacity-0"
+                  >
+                    {{ item.badge }}
+                  </span>
+                }
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  </nav>
+
+  <!-- Footer: settings / logout / user / version -->
+  <div
+    hlmSidebarFooter
+    class="gap-2.5 border-sidebar-border border-t p-3 group-data-[collapsible=icon]:px-2"
+  >
+    <div class="flex flex-col gap-1">
+      <button
+        type="button"
+        class="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-caption flex h-8 items-center gap-2 overflow-hidden rounded-lg px-3 font-medium transition-[color,background-color,gap] duration-200 ease-linear group-data-[collapsible=icon]:gap-0"
+        title="ตั้งค่าระบบ"
+      >
+        <ng-icon name="lucideSettings" class="shrink-0" />
+        <span
+          class="truncate opacity-100 transition-opacity duration-200 ease-linear group-data-[collapsible=icon]:opacity-0"
+          >ตั้งค่าระบบ</span
+        >
+      </button>
+      <button
+        type="button"
+        class="bg-rose-50/70 text-rose-600 hover:bg-rose-100/80 dark:bg-rose-500/15 dark:text-rose-400 dark:hover:bg-rose-500/25 text-caption flex h-8 items-center gap-2 overflow-hidden rounded-lg px-3 font-medium transition-[color,background-color,gap] duration-200 ease-linear group-data-[collapsible=icon]:gap-0"
+        title="ออกจากระบบ"
+      >
+        <ng-icon name="lucideLogOut" class="shrink-0" />
+        <span
+          class="truncate opacity-100 transition-opacity duration-200 ease-linear group-data-[collapsible=icon]:opacity-0"
+          >ออกจากระบบ</span
+        >
+      </button>
+    </div>
+
+    <p class="text-muted-foreground grid text-center text-[10px]">
+      <span
+        class="col-start-1 row-start-1 truncate opacity-100 transition-opacity duration-200 ease-linear group-data-[collapsible=icon]:opacity-0"
+        >AquaTrack Cloud v2.4</span
+      >
+      <span
+        class="col-start-1 row-start-1 truncate opacity-0 transition-opacity duration-200 ease-linear group-data-[collapsible=icon]:opacity-100"
+        >v2.4</span
+      >
+    </p>
+  </div>
+</hlm-sidebar>
