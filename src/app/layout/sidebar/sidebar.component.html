@@ -37,7 +37,12 @@
   <nav hlmSidebarContent class="py-2">
     @for (group of nav; track group.label) {
       <div hlmSidebarGroup>
-        <div hlmSidebarGroupLabel class="text-muted-foreground">{{ group.label }}</div>
+        <div
+          hlmSidebarGroupLabel
+          class="text-muted-foreground group-data-[collapsible=icon]:pointer-events-none"
+        >
+          {{ group.label }}
+        </div>
         <ul hlmSidebarMenu class="gap-1">
           @for (item of group.items; track item.route) {
             <li hlmSidebarMenuItem>

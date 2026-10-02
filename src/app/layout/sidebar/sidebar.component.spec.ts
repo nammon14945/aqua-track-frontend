@@ -48,6 +48,20 @@ describe('Sidebar', () => {
     expect(active?.textContent).toContain('ออเดอร์ & สายรถส่งน้ำ');
   });
 
+  it('ignores pointer events on collapsed group labels so they never block nav buttons', async () => {
+    const fixture = await renderComponent(Sidebar);
+    const el: HTMLElement = fixture.nativeElement;
+
+    const labels = Array.from(
+      el.querySelectorAll<HTMLElement>('[data-slot="sidebar-group-label"]'),
+    );
+    expect(labels.length).toBe(SIDEBAR_NAV.length);
+
+    for (const label of labels) {
+      expect(label.className).toContain('group-data-[collapsible=icon]:pointer-events-none');
+    }
+  });
+
   it('renders the footer actions and version tag — without a user card', async () => {
     const fixture = await renderComponent(Sidebar);
     const el: HTMLElement = fixture.nativeElement;
