@@ -1,0 +1,49 @@
+<article
+  class="bg-card hover:border-brand-300 flex flex-col gap-2.5 rounded-xl border p-4 transition-colors"
+>
+  <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex items-start gap-3">
+      <span [class]="_badgeClass()">#{{ truckNo() }}</span>
+      <div class="flex flex-col">
+        <span class="text-body-sm font-bold">{{ title() }}</span>
+        <p class="text-caption text-muted-foreground">
+          พนักงานขับรถ:
+          <span class="text-foreground font-medium">{{ driverName() }}</span>
+          @if (driverPhone()) {
+            <span> • โทร: {{ driverPhone() }}</span>
+          }
+        </p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3 self-end sm:self-center">
+      <app-status-chip
+        [status]="status()"
+        [label]="statusLabel()"
+        [pulse]="pulse()"
+        [tone]="statusTone()"
+      />
+      <span class="text-body-sm font-bold tabular-nums" data-numeric>
+        {{ bottleDelivered() }} / {{ bottleLoaded() }}
+        <span class="text-caption font-normal text-muted-foreground">ถัง ({{ percent() }}%)</span>
+      </span>
+    </div>
+  </div>
+
+  <app-progress-bar [value]="percent()" [tone]="progressTone()" size="lg" />
+
+  <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-caption">
+    <span class="text-muted-foreground">
+      จัดส่งแล้ว {{ deliveredStops() }} จุดหมาย
+      @if (emptyReturned() !== null) {
+        <span> • เก็บถังเปล่ากลับ {{ emptyReturned() }} ใบ</span>
+      }
+      @if (note()) {
+        <span> ({{ note() }})</span>
+      }
+    </span>
+    @if (eta()) {
+      <span class="text-muted-foreground">คาดการณ์สิ้นสุด: {{ eta() }}</span>
+    }
+  </div>
+</article>

@@ -1,0 +1,265 @@
+<app-ds-section
+  id="forms"
+  eyebrow="Components"
+  title="Forms & Inputs"
+  description="ฟอร์มที่ผูกกับ Angular Forms ได้ทันที (ControlValueAccessor) พร้อม Field wrapper สำหรับ label / description / error"
+>
+  <app-ds-preview
+    title="Text input & Textarea"
+    description="ความสูง 32px (h-8) เป็นค่าเริ่มต้น — เพิ่มเป็น h-11 สำหรับฟอร์มบนมือถือ"
+    code='&lt;input hlmInput placeholder="ชื่อลูกค้า" /&gt;
+&lt;textarea hlmTextarea rows="3"&gt;&lt;/textarea&gt;'
+  >
+    <div class="grid w-full gap-4 sm:grid-cols-2">
+      <div class="flex flex-col gap-1.5">
+        <label class="text-label" for="ds-name">ชื่อลูกค้า</label>
+        <input hlmInput id="ds-name" placeholder="เช่น บ้านคุณสมศรี" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <label class="text-label" for="ds-phone">เบอร์โทรศัพท์</label>
+        <input hlmInput id="ds-phone" placeholder="08X-XXX-XXXX" inputmode="tel" />
+      </div>
+      <div class="flex flex-col gap-1.5 sm:col-span-2">
+        <label class="text-label" for="ds-note">หมายเหตุการส่ง</label>
+        <textarea
+          hlmTextarea
+          id="ds-note"
+          rows="3"
+          placeholder="เช่น ฝากถังไว้หน้าบ้าน ถ้าไม่มีคนอยู่"
+        ></textarea>
+      </div>
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="Input states"
+    description="disabled / อ่านค่าเท่านั้น / ผิดพลาด (aria-invalid)"
+  >
+    <div class="grid w-full gap-4 sm:grid-cols-3">
+      <div class="flex flex-col gap-1.5">
+        <span class="text-label">Disabled</span>
+        <input hlmInput disabled value="อ่านค่าไม่ได้" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="text-label text-danger-soft-foreground">Error</span>
+        <input hlmInput aria-invalid="true" value="จำนวนติดลบ" />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="text-label">Success helper</span>
+        <input hlmInput value="121/4 หมู่ 3" />
+        <span class="text-caption text-success-soft-foreground flex items-center gap-1">
+          <ng-icon name="lucideCircleCheck" /> ตรวจสอบที่อยู่แล้ว
+        </span>
+      </div>
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="Search & Input group"
+    description="ค้นหา + ปุ่มท้ายช่อง / จำนวนถังแบบมีปุ่มเพิ่ม-ลด"
+    code='&lt;div hlmInputGroup&gt;
+  &lt;div hlmInputGroupAddon&gt;&lt;ng-icon name="lucideSearch" /&gt;&lt;/div&gt;
+  &lt;input hlmInputGroupInput placeholder="ค้นหา" /&gt;
+&lt;/div&gt;'
+  >
+    <div class="grid w-full gap-4 sm:grid-cols-2">
+      <div hlmInputGroup>
+        <div hlmInputGroupAddon>
+          <ng-icon name="lucideSearch" class="text-muted-foreground" />
+        </div>
+        <input hlmInputGroupInput placeholder="ค้นหาลูกค้า หรือเลขถัง" />
+      </div>
+
+      <div hlmInputGroup>
+        <div hlmInputGroupAddon>
+          <ng-icon name="lucideDroplet" class="text-brand-600" />
+        </div>
+        <input hlmInputGroupInput value="12" inputmode="numeric" aria-label="จำนวนถัง" />
+        <div hlmInputGroupAddon align="inline-end">
+          <button hlmInputGroupButton size="icon-xs" variant="outline" aria-label="ลด">−</button>
+          <button hlmInputGroupButton size="icon-xs" variant="outline" aria-label="เพิ่ม">+</button>
+        </div>
+      </div>
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="Select & Native select"
+    description="hlm-select รองรับการค้นหาและ portal, native-select เหมาะกับตัวเลือกระยะสั้นบนมือถือ"
+  >
+    <div class="grid w-full gap-4 sm:grid-cols-2">
+      <div class="flex flex-col gap-1.5">
+        <span class="text-label">โซนส่งน้ำ</span>
+        <hlm-select [itemToString]="zoneToString">
+          <hlm-select-trigger class="w-full">
+            <hlm-select-value placeholder="เลือกโซน" />
+          </hlm-select-trigger>
+          <hlm-select-content *hlmSelectPortal>
+            <hlm-select-group>
+              <hlm-select-label>โซน</hlm-select-label>
+              @for (zone of zones; track zone.value) {
+                <hlm-select-item [value]="zone.value">{{ zone.label }}</hlm-select-item>
+              }
+            </hlm-select-group>
+          </hlm-select-content>
+        </hlm-select>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <span class="text-label">สายรถ</span>
+        <hlm-native-select>
+          @for (truck of trucks; track truck.value) {
+            <option hlmNativeSelectOption [value]="truck.value">{{ truck.label }}</option>
+          }
+        </hlm-native-select>
+      </div>
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="Date picker"
+    description="ใช้ปฏิทินแบบ popover พร้อม format วันที่ได้ (แสดงผลแบบไทย พ.ศ. ได้ผ่าน formatDate)"
+  >
+    <div class="grid w-full gap-4 sm:grid-cols-2">
+      <div class="flex flex-col gap-1.5">
+        <span class="text-label">วันนัดส่ง</span>
+        <hlm-date-picker [formatDate]="thaiDate" [autoCloseOnSelect]="true">
+          <hlm-date-picker-trigger buttonId="ds-date" class="w-full">
+            เลือกวันที่
+          </hlm-date-picker-trigger>
+        </hlm-date-picker>
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <span class="text-label">ช่วงวันที่รายงาน</span>
+        <hlm-date-range-picker>
+          <hlm-date-picker-trigger buttonId="ds-range" class="w-full">
+            เลือกช่วงวันที่
+          </hlm-date-picker-trigger>
+        </hlm-date-range-picker>
+      </div>
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="Checkbox, Radio, Switch"
+    description="ใช้กับ ngModel หรือ Reactive Forms ได้โดยตรง"
+  >
+    <div class="grid w-full gap-6 sm:grid-cols-3">
+      <div class="flex flex-col gap-3">
+        <span class="text-label text-muted-foreground">Checkbox</span>
+        <label class="flex items-center gap-2 text-body">
+          <hlm-checkbox [ngModel]="agreeTerms()" (ngModelChange)="agreeTerms.set($event)" />
+          ยืนยันยอดค้างชำระ
+        </label>
+        <label class="flex items-center gap-2 text-body">
+          <hlm-checkbox [ngModel]="agreeTerms()" (ngModelChange)="agreeTerms.set($event)" />
+          รับถังคืนครบ
+        </label>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <span class="text-label text-muted-foreground">Radio group</span>
+        <div
+          hlmRadioGroup
+          class="gap-3"
+          [ngModel]="visitType()"
+          (ngModelChange)="visitType.set($event)"
+        >
+          <label class="flex items-center gap-2 text-body">
+            <hlm-radio value="regular"><hlm-radio-indicator /></hlm-radio>
+            ส่งตามรอบปกติ
+          </label>
+          <label class="flex items-center gap-2 text-body">
+            <hlm-radio value="urgent"><hlm-radio-indicator /></hlm-radio>
+            ส่งด่วนวันนี้
+          </label>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <span class="text-label text-muted-foreground">Switch</span>
+        <label class="flex items-center gap-2 text-body">
+          <hlm-switch [ngModel]="autoPrint()" (ngModelChange)="autoPrint.set($event)" />
+          พิมพ์ใบเสร็จอัตโนมัติ
+        </label>
+        <label class="flex items-center gap-2 text-body">
+          <hlm-switch [ngModel]="notifyCustomer()" (ngModelChange)="notifyCustomer.set($event)" />
+          แจ้งเตือนลูกค้าก่อนส่ง
+        </label>
+      </div>
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="Slider"
+    description="ใช้ปรับตัวเลขเร็ว ๆ เช่น จำนวนถังขั้นต่ำสำหรับแจ้งเตือนสต็อก"
+  >
+    <div class="flex w-full max-w-sm flex-col gap-3">
+      <div class="flex items-center justify-between text-body-sm">
+        <span class="text-label">แจ้งเตือนเมื่อถังเหลือ</span>
+        <span class="tabular-nums font-medium" data-numeric>{{ stockAlert() }} ถัง</span>
+      </div>
+      <hlm-slider
+        [min]="0"
+        [max]="200"
+        [step]="5"
+        [value]="[stockAlert()]"
+        (valueChange)="onSlider($event)"
+      />
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="File upload (แนบสลิปโอนเงิน)"
+    description="โครงร่างโซนอัปโหลดมาตรฐาน — ใช้ input type=file ที่ซ่อนไว้"
+    code='&lt;label class="flex min-h-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border border-dashed"&gt;
+  &lt;input type="file" class="sr-only" accept="image/*" /&gt;
+  &lt;ng-icon name="lucideUpload" /&gt;
+  ลากไฟล์มาวาง หรือคลิกเพื่อเลือกไฟล์
+&lt;/label&gt;'
+  >
+    <label
+      class="border-border bg-muted/30 hover:bg-muted/60 flex min-h-28 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed p-4 text-center transition-colors"
+    >
+      <input type="file" class="sr-only" accept="image/*" />
+      <span
+        class="bg-brand-50 text-brand-700 flex size-10 items-center justify-center rounded-full"
+      >
+        <ng-icon name="lucideUpload" />
+      </span>
+      <span class="text-body-sm font-medium">ลากไฟล์สลิปมาวาง หรือคลิกเพื่อเลือก</span>
+      <span class="text-caption text-muted-foreground">PNG, JPG ขนาดไม่เกิน 5MB</span>
+    </label>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="Field pattern (validation)"
+    description="ใช้ hlm-field สำหรับฟอร์มที่มี label / description / error ครบชุด"
+  >
+    <div class="grid w-full gap-4 sm:grid-cols-2">
+      <div hlmField>
+        <label hlmFieldLabel for="ds-field-1">จำนวนถังที่ส่ง</label>
+        <input hlmInput id="ds-field-1" value="24" />
+        <p hlmFieldDescription>ระบุเป็นจำนวนเต็ม ไม่รวมถังชำรุด</p>
+      </div>
+      <div hlmField>
+        <label hlmFieldLabel for="ds-field-2">ยอดเงินที่รับ</label>
+        <input hlmInput id="ds-field-2" aria-invalid="true" value="-50" />
+        <hlm-field-error [forceShow]="true">ยอดเงินต้องมากกว่า 0</hlm-field-error>
+      </div>
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="Payment mode selector (domain)"
+    description="ตัวเลือกช่องทางชำระเงินตามสเปก — เงินสด / สลิปโอน / คูปอง / เครดิต"
+    code='&lt;app-payment-mode-selector [(value)]="mode" /&gt;'
+  >
+    <div class="w-full">
+      <app-payment-mode-selector [(value)]="paymentMode" />
+      <p class="text-caption text-muted-foreground mt-3">
+        เลือกอยู่: <span class="font-medium">{{ paymentMode() }}</span>
+      </p>
+    </div>
+  </app-ds-preview>
+</app-ds-section>

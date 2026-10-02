@@ -1,0 +1,16 @@
+<div class="flex flex-wrap items-center gap-2" role="tablist" [attr.aria-label]="ariaLabel()">
+  @for (item of items(); track item.value) {
+    <button
+      type="button"
+      role="tab"
+      [attr.aria-selected]="value() === item.value"
+      [class]="_chipClass(item.value)"
+      (click)="value.set(item.value)"
+    >
+      {{ item.label }}
+      @if (item.count !== undefined) {
+        <span class="tabular-nums"> ({{ item.count }})</span>
+      }
+    </button>
+  }
+</div>

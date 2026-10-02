@@ -1,0 +1,6 @@
+<span [class]="_classes()" [attr.data-mode]="mode()">
+  @if (showIcon()) {
+    <ng-icon [name]="icon()" />
+  }
+  {{ text() }}
+</span>

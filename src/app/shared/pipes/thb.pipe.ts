@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { formatThb } from '../utils/format';
+import { formatThb } from '../utils/format.util';
 
 @Pipe({ name: 'thb' })
 export class ThbPipe implements PipeTransform {

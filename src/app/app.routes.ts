@@ -8,8 +8,8 @@ export const routes: Routes = [
   },
   {
     path: 'design-system',
-    loadComponent: () => import('./pages/design-system/design-system').then((m) => m.DesignSystem),
-    title: 'Design System · AquaTrack Pro',
+    loadChildren: () =>
+      import('./features/design-system/design-system.routes').then((m) => m.designSystemRoutes),
   },
   {
     path: '**',

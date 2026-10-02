@@ -1,0 +1,26 @@
+@if (label()) {
+  <span class="text-label text-muted-foreground mb-2 block">{{ label() }}</span>
+}
+<div class="grid grid-cols-2 gap-2 sm:grid-cols-4" role="radiogroup" [attr.aria-label]="label()">
+  @for (mode of modes(); track mode.value) {
+    <button
+      type="button"
+      hlmBtn
+      role="radio"
+      [attr.aria-checked]="value() === mode.value"
+      [variant]="value() === mode.value ? 'default' : 'outline'"
+      [class]="_optionClass()"
+      (click)="value.set(mode.value)"
+    >
+      <ng-icon [name]="mode.icon" data-icon="inline-start" />
+      <span class="flex min-w-0 flex-1 flex-col items-start text-start leading-tight">
+        <span class="truncate">{{ mode.label }}</span>
+        @if (showDescriptions()) {
+          <span class="text-[11px] font-normal whitespace-normal opacity-80">
+            {{ mode.description }}
+          </span>
+        }
+      </span>
+    </button>
+  }
+</div>

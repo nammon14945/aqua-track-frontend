@@ -1,0 +1,7 @@
+<span [class]="_classes()" data-numeric>
+  <ng-icon [name]="icon()" />
+  <span [class]="_valueClass()">{{ _display() }}</span>
+  @if (label()) {
+    <span class="text-caption font-normal text-muted-foreground">{{ label() }}</span>
+  }
+</span>

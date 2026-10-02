@@ -1,0 +1,41 @@
+<div class="flex items-start justify-between gap-3">
+  <div class="flex flex-col gap-1">
+    <span class="text-caption text-muted-foreground">{{ label() }}</span>
+    <div class="flex items-baseline gap-1.5">
+      <span [class]="_valueClass()" class="text-h2 tabular-nums" data-numeric>{{ value() }}</span>
+      @if (unit()) {
+        <span class="text-caption font-normal text-muted-foreground">{{ unit() }}</span>
+      }
+    </div>
+  </div>
+  @if (icon()) {
+    <span [class]="_iconClass()">
+      <ng-icon [name]="icon()!" />
+    </span>
+  }
+</div>
+
+@if (delta() !== null || hint()) {
+  <div class="flex flex-wrap items-center gap-1.5 text-caption">
+    @if (delta() !== null) {
+      <span
+        class="inline-flex items-center gap-0.5 font-medium tabular-nums"
+        [class]="_deltaToneClass()"
+      >
+        @if (delta()! > 0) {
+          <ng-icon name="lucideTrendingUp" />
+        } @else if (delta()! < 0) {
+          <ng-icon name="lucideTrendingDown" />
+        }
+        {{ _deltaText() }}
+      </span>
+    }
+    @if (hint()) {
+      <span class="text-muted-foreground">{{ hint() }}</span>
+    }
+  </div>
+}
+
+@if (accentBar()) {
+  <span [class]="_accentBarClass()" aria-hidden="true"></span>
+}

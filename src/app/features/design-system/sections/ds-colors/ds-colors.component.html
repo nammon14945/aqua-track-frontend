@@ -1,0 +1,104 @@
+<app-ds-section
+  id="colors"
+  eyebrow="Foundations"
+  title="Colors"
+  description="พาเลตต์น้ำ-ฟ้า ตาม Design Guidelines จาก Stitch (primary #0284C7, secondary teal #0D9488, tertiary amber #F59E0B) พร้อมชุดสี semantic และสถานะธุรกิจที่ใช้ทั่วระบบ"
+>
+  <app-ds-preview
+    title="Brand scale — Primary (Water Blue)"
+    description="ใช้กับปุ่มหลัก ลิงก์ สถานะกำลังส่ง และกราฟหลัก"
+    [padded]="true"
+  >
+    <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-11">
+      @for (c of brand; track c.step) {
+        <app-ds-swatch [name]="'brand-' + c.step" [value]="c.value" [swatchClass]="c.cls" />
+      }
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview title="Secondary (Teal) และ Tertiary (Amber)" [padded]="true">
+    <div class="flex w-full flex-col gap-5">
+      <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-10">
+        @for (c of teal; track c.step) {
+          <app-ds-swatch [name]="'teal-' + c.step" [value]="c.value" [swatchClass]="c.cls" />
+        }
+      </div>
+      <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-10">
+        @for (c of amber; track c.step) {
+          <app-ds-swatch [name]="'amber-' + c.step" [value]="c.value" [swatchClass]="c.cls" />
+        }
+      </div>
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview title="Neutral scale" [padded]="true">
+    <div class="grid w-full grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-11">
+      @for (c of neutral; track c.step) {
+        <app-ds-swatch [name]="'neutral-' + c.step" [value]="c.value" [swatchClass]="c.cls" />
+      }
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="Semantic roles"
+    description="โทเคนเชิงความหมายที่ map เข้า CSS variables ของ Spartan — เปลี่ยนแบรนด์ได้ในที่เดียว"
+    [padded]="true"
+  >
+    <div class="grid w-full grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
+      @for (c of semantic; track c.name) {
+        <app-ds-swatch
+          [name]="'--' + c.name"
+          [value]="c.value"
+          [swatchClass]="c.cls"
+          [usage]="c.usage"
+        />
+      }
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="สถานะธุรกิจ (Domain status)"
+    description="Use สำหรับ chip และแถบความคืบหน้าของออเดอร์/สายรถส่งน้ำ"
+    [padded]="true"
+  >
+    <div class="flex w-full flex-col gap-4">
+      <div class="grid w-full grid-cols-2 gap-3 sm:grid-cols-5">
+        @for (c of statusTokens; track c.name) {
+          <app-ds-swatch
+            [name]="c.name"
+            [value]="c.value"
+            [swatchClass]="c.cls"
+            [usage]="c.usage"
+          />
+        }
+      </div>
+      <div class="flex flex-wrap gap-2">
+        @for (p of softPairs; track p.name) {
+          <span
+            class="rounded-full border px-3 py-1 text-caption font-medium"
+            [class]="p.bg + ' ' + p.fg + ' ' + p.border"
+          >
+            {{ p.name }}
+          </span>
+        }
+      </div>
+    </div>
+  </app-ds-preview>
+
+  <app-ds-preview
+    title="Chart palette"
+    description="สีกราฟมาตรฐาน 5 ตัว สำหรับแดชบอร์ดสต็อก/เส้นทาง"
+  >
+    <div class="flex flex-wrap items-end gap-4">
+      @for (c of charts; track c.name) {
+        <div class="flex flex-col items-center gap-2">
+          <span
+            [class]="c.cls"
+            class="size-12 rounded-lg border border-black/5 shadow-soft-xs"
+          ></span>
+          <span class="text-caption text-muted-foreground font-mono">{{ c.name }}</span>
+        </div>
+      }
+    </div>
+  </app-ds-preview>
+</app-ds-section>
