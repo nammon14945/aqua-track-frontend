@@ -428,6 +428,12 @@
     @apply border-border outline-ring/50;
   }
 
+  /* Keyboard focus: ปุ่ม/ลิงก์ทุกตัวใช้กรอบฟ้าชุดเดียวกับ Spartan helm
+     (border-ring + ring 3px + outline 1px) — ดูตัวอย่างได้ที่ปุ่ม Tabs */
+  :where(button, [role='button'], a[href]):focus-visible {
+    @apply border-ring outline-1 outline-ring ring-3 ring-ring/50;
+  }
+
   html {
     @apply antialiased;
     text-size-adjust: 100%;
