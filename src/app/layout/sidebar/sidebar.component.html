@@ -4,7 +4,12 @@
     hlmSidebarHeader
     class="gap-3 border-sidebar-border border-b p-3 transition-[padding] duration-200 ease-linear group-data-[collapsible=icon]:px-2"
   >
-    <div class="flex items-center gap-3">
+    <a
+      routerLink="/dashboard"
+      class="flex items-center gap-3"
+      title="ไปที่แดชบอร์ด"
+      aria-label="ไปที่แดชบอร์ด"
+    >
       <div
         class="bg-primary text-primary-foreground dark:text-white shadow-soft-xs flex size-10 shrink-0 items-center justify-center rounded-xl"
       >
@@ -19,7 +24,7 @@
         </div>
         <p class="text-caption text-muted-foreground truncate">จัดการโรงงานและจัดส่งน้ำดื่ม</p>
       </div>
-    </div>
+    </a>
 
     <a
       routerLink="/orders"

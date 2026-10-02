@@ -24,6 +24,14 @@ describe('Sidebar', () => {
     expect(el.querySelectorAll('a[hlmSidebarMenuButton]').length).toBe(8);
   });
 
+  it('navigates to the dashboard when the brand logo is clicked', async () => {
+    const fixture = await renderComponent(Sidebar);
+    const el: HTMLElement = fixture.nativeElement;
+
+    const brand = el.querySelector('a[routerLink="/dashboard"]');
+    expect(brand?.textContent).toContain('AquaTrack Pro');
+  });
+
   it('shows the amber badge with the pending order count', async () => {
     const fixture = await renderComponent(Sidebar);
     const el: HTMLElement = fixture.nativeElement;
